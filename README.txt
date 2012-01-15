@@ -10,7 +10,9 @@ I am not a programmer, but I wrote these Matlab routines as part of my phd proje
 ----------------
 VERSIONS and BRANCHES
 
--- Master: This is the Repo you want; there may be many other branches but Master should contain the latest working version of everything, EXCEPT you must download the scattering coeffcient database files separately and unzip them into the ./multi_angle_mie_sizing/database_files directory.  I will keep a copy of any databases I generate updated in the download section.  These are NOT part of the Repo.
+-- master: This is the Repo you want; there may be many other branches but Master should contain the latest working version of everything, EXCEPT you must download the scattering coeffcient database files separately and unzip them into the ./multi_angle_mie_sizing/database_files directory.  I will keep a copy of any databases I generate updated in the download section.  These are NOT part of the Repo.
+
+-- bitdepth: This is definitely NOT working.  This is where I'm writing front-end image processing that can handle a much wider range of image types, most importantly RAW 16-bit images.  
 
 -- Version 1 - Tag: dissertation
 
