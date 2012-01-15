@@ -12,7 +12,7 @@ addpath ../mie_m_code
 
 % Scattering crossection database containing A and B
 scat_db_filename=...
-    '../mie_m_code/database_files/scattering_coefficients_database2.mat';
+    '../database_files/scattering_coefficients_water_sub_angs.mat';
 
 % z-y location of "red dot" centers within frame, inches
 % lower left corner is origin w/ respect to the dots.

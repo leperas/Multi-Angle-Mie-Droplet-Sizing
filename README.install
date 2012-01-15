@@ -1,27 +1,26 @@
-All the files referenced within the dissertation are contained within multi-angle-mie-sizing_v1.tar.bz2.  Download this file to it's own directory and run:
+Installing the Repo version of the software.
 
-tar -jxf multi-angle-mie-sizing_v1.tar.bz2
+From the compressed download:
+1) Put the compressed Repo in it's own directory and extract everything.  There should be two directories:
+     ./multi_angle_mie_sizing  
+     ./multi_angle_mie_sizing_3rd_party 
 
-It is a good idea to copy the "helper functions" into your own toolbox, or the general toolbox, ./matlab/toolbox/matlab/general.  This way they are always available.  There are two 3rd party functions, inifile.m and MFquestdlg.m, and two regular package functions, mfprintf.m and use_lockfile.m.  Be sure to run:
+2) Get the database files from the download area, and uncompress them into ./multi_angle_mie_sizing/database_files/
 
->> rehash toolbox
+3) It is a good idea to copy the "helper functions" into your own toolbox, or the general toolbox, ./matlab/toolbox/matlab/general.  This way they are always available.  There are two 3rd party functions, inifile.m and MFquestdlg.m, and two regular package functions, mfprintf.m and use_lockfile.m.  Be sure to run:
+
+  >> rehash toolbox
 
 from Matlab after you copy the files over.
 
-There are two directories:
-./multi_angle_mie_sizing  
-./multi_angle_mie_sizing_3rd_party 
+4) That should be it. 
 
-The "3rd Party" software is all available publically; included here for convenience and to ensure compatability with the other functions.  All Matlab routines written for the multi-angle Mie sizing project are in the separate directory.
+USAGE NOTES:
+The "3rd Party" software is all available publically; it is included here for convenience and to ensure compatability with the other functions.  All Matlab routines written for the multi-angle Mie sizing project are in the separate directory.
 
-Documentation is my dissertation.  Every routine is "walked through" and there is a complete end-to-end example of how everything is supposed to work in the appendix.
+Documentation is my dissertation.  Every routine is "walked through" and there is a complete end-to-end example of how everything is supposed to work in the appendix.  Although some minor details have changed, the example should still work with these routines.
 
-If you would like to contribute to the project, you might start here:
-http://learn.github.com/p/intro.html
-If this sounds ok with you, install git, and "git" started.  Understand that I am not a programmer; any help or suggestions for improvement will be welcome.  
-
-Any updates, new versions, or improvements will eventually find their way to:
-https://github.com/leperas/Multi-Angle-Mie-Droplet-Sizing
+If you would like to contribute to the project and/or modify things, feel free to contact me so I can explain what is going on currently, and we can work together constructively.
 
 Stephen LePera
 Virginia Tech, 2012

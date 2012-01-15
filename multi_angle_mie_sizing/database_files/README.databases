@@ -1,9 +1,20 @@
-Databases here are as follows:
+These databases should be installed in the ./multi_angle_mie_sizing/database_files/ directory. 
 
-The scattering coeffcient databases, both for water.
+Description of databases:
 
-scattering_coefficients_database2.mat
-scattering_coefficients_database_all_angs.mat
+SCATTERING DATABASES
+The scattering coeffcient databases, both for water.  Note that theta data within the file is saved as radians and sizes as x, the size parameter, even though ranges are noted here in degrees for clarity.
 
+scattering_coefficients_water_sub_angs.mat - 
+     range and resolution, theta: [38:0.1:42  130:0.1:160], 
+                           x: [3.0531:3.0531:1221.2], 
+                           n = 1.3330 + 0i
+scattering_coefficients_water_all_angs.mat - 
+     range and resolution, theta: [0:0.1:180], 
+                           x: [0.3053:0.3053:1221.2],
+                           n = 1.3330 + 0i
+SIZING LOOK-UP DATABASES
 The sizing database, for water.
-sz3_data_file.mat
+
+sz3_data_file_water.mat - 
+     range:   x: [0.3053:1.2212:1221.2]
