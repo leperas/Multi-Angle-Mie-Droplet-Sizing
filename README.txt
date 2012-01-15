@@ -15,7 +15,7 @@ VERSIONS and BRANCHES
 
 -- Version 1 - Tag: dissertation
 
-The Repo TAG "dissertation" should take you back to the dissertation version of all the routines.  But the simplest way to get started is just download the package.  All the files referenced within the dissertation are contained within multi-angle-mie-sizing_v1.tar.bz2.  These will not change or be updated.  This will maintain consistancy with the original dissertation document.  This package is available in the download section.  Put this file to it's own directory and run:
+The Repo TAG "dissertation" should take you back to the original commit of the dissertation version of all the routines.  But the simplest way to get started is just download the package.  All the files referenced within the dissertation are contained within multi-angle-mie-sizing_v1.tar.bz2.  These will not change or be updated.  This will maintain consistancy with the original dissertation document.  This package is available in the download section.  Put this file to it's own directory and run:
 
 tar -jxf multi-angle-mie-sizing_v1.tar.bz2
 
