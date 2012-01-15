@@ -1,0 +1,9 @@
+Databases here are as follows:
+
+The scattering coeffcient databases, both for water.
+
+scattering_coefficients_database2.mat
+scattering_coefficients_database_all_angs.mat
+
+The sizing database, for water.
+sz3_data_file.mat
