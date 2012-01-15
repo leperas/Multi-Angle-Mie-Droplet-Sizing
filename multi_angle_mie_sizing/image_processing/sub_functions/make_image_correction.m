@@ -1,0 +1,24 @@
+function [A]=make_image_correction(A, correction_filename)
+% [A]=make_image_correction(A, correction_filename)
+% A is a matrix of brightness fractions values between 0 and 1, NOT an
+% actual image.
+% Correction filename should be the complete path and filename, or else be
+% in the current directory.
+% Note that as shown the corrected values overwrite the original values 
+% in A as a memory-saving device.
+%
+% Copyright (C) 2012, Stephen D. LePera.  GNU General Public License, v3.
+% Terms available in GPL_v3_license.txt, or <http://www.gnu.org/licenses/>
+
+%Pure log correction suggested by literature.  Poor.
+%A=A.^(1/0.68);
+
+XX=load(correction_filename);
+
+P=XX.P;
+L=XX.L;
+cutoff=XX.cutoff;
+
+% apply linear correction below cutoff and polynomial above
+A(A<cutoff)=polyval(L,A(A<cutoff));
+A(A>=cutoff)=polyval(P,A(A>=cutoff));
