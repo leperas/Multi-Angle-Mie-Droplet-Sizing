@@ -7,7 +7,7 @@ From the compressed download:
 
 2) Get the database files from the download area, and uncompress them into ./multi_angle_mie_sizing/database_files/
 
-3) It is a good idea to copy the "helper functions" into your own toolbox, or the general toolbox, ./matlab/toolbox/matlab/general.  This way they are always available.  There are two 3rd party functions, inifile.m and MFquestdlg.m, and two regular package functions, mfprintf.m and use_lockfile.m.  Be sure to run:
+3) It is a good idea to copy the "helper functions" into your own toolbox, or the general toolbox, ./matlab/toolbox/matlab/general.  This way they are always available.  There are three 3rd party functions, inifile.m, MFquestdlg.m, and git.m (allows calls to git from the Matlab command line).  There are two regular package functions, mfprintf.m and use_lockfile.m.  Be sure to run:
 
   >> rehash toolbox
 
