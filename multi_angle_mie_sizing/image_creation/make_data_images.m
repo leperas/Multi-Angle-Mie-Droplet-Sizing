@@ -1,96 +1,254 @@
-clear all
-close all
+function make_data_images(filename)
+% Process the given initialization file, OR
+% if filename does not exist, open a GUI and setup
+% a new simulated data image creation initialization file
+%
 % Creates a set of simulated light scattering images.
 %
-% Copyright (C) 2012, Stephen D. LePera.  GNU General Public License, v3.
+% Copyright (C) 2013, Stephen D. LePera.  GNU General Public License, v3.
 % Terms available in GPL_v3_license.txt, or <http://www.gnu.org/licenses/>
 
-% Setup the desired properties of the simulated data set here
+close all
 
-% Location of Irr_int.m and create_view.m 
+% Function create_view.m should be in the same directory with this routine
+
+% Location of Irr_int.m.  
 addpath ../mie_m_code
 
-% Scattering crossection database containing A and B
-scat_db_filename=...
-    '../database_files/scattering_coefficients_water_sub_angs.mat';
+result=strfind(filename,'/');
+if numel(result)==0
+    current_path=strcat(pwd,'/');
+    data_file=filename;
+else
+    lst_sl=result(size(result,2));
+    current_path=filename(1:lst_sl);
+    data_file=filename(lst_sl+1:length(filename));
+end
+ini_filename=strcat(current_path,data_file);
 
-% z-y location of "red dot" centers within frame, inches
-% lower left corner is origin w/ respect to the dots.
-y_z_dots=[0.025 0.025
-    .125 0.025
-    .125 0.575
-    0.025 0.575];
-% "red dot" diameter, inches
-rd=0.03;
-image_width=0.15;  % inches
+% See if the given filename exists
+if exist(ini_filename)==0
+    % does not exist, make a new ini file
+    [data_file, current_path, filterindex] = uiputfile('*.ini',...
+        'Save as:', ini_filename);
+    ini_filename=strcat(current_path,data_file);
+    
+    % Clears any old ini files of the same name and path
+    if exist(ini_filename)>0
+        delete(ini_filename)
+    end
+    
+    %Make comments section at top of file
+    inifile(ini_filename,'write',{'','',...
+       ';- Lines starting with a semi-colon are treated as a comment.',''})
+    inifile(ini_filename,'write',{'','',...
+        ';- Comment lines do NOT need the = sign at the end :)',''})
+    inifile(ini_filename,'write',{'','',...
+        ';- Filenames should be given with a full pathname',''})
+    inifile(ini_filename,'write',{'','',...
+        ';  if they are not in the current directory.',''})
+    inifile(ini_filename,'write',{'','',...
+        ';- Refer to the User Manual for complete description of',''})
+    inifile(ini_filename,'write',{'','',...
+        ';  the following variables.',''})
+    inifile(ini_filename,'write',{'','', ';     ',''})
+    inifile(ini_filename,'write',{'','',...
+      ';- This .ini file may be hand edited; this file was created by',''})
+    inifile(ini_filename,'write',{'','',...
+      ';  the inifile function written by by Primoz Cermelj.  Data is',''})
+    inifile(ini_filename,'write',{'','',...
+        ';  easily read using the same function.',''})
+    
+    % Setup the image creation parameters here, or let the program create
+    % the .ini file as-is, and edit the parameters later.
+    
+    % Scattering crossection database containing A and B
+    scatdb_filename_str=...
+        '../database_files/scattering_coefficients_water_sub_angs.mat';
+    
+    % z-y location of "red dot" centers within frame, inches
+    % lower left corner is origin w/ respect to the dots.
+    y_z_dots=[0.025 0.025
+        .125 0.025
+        .125 0.575
+        0.025 0.575];
+    
+    % "red dot" diameter, inches
+    rd=0.03;
+    
+    % simulated image width, inches
+    image_width=0.15;  
+    
+    % droplet distribution/location
+    % each image 'column' a different standard deviation
+    % each image 'row' will be different mean diameter
+    % note: one-column case centered at desired angle
+    
+    dg_max=50;   % micrometers
+    dg_min=1;    % micrometers
+    sigma=[10];  % micrometers
+    dist_type='logn';   % Can be 'single', 'logn', or 'norm'
+    
+    y_cent=0.075;  % inches  This will be center of the resulting data images
+    z_cent=0.3;  % inches
+    
+    % Camera Angular Location(s) with respect to y_cent,z_cent, above.
+    % Each row of matrix contains data about the camera location as:
+    % [ distance away (in),  angle theta (deg), half cone angle (deg)
+    %                                              exposure time (sec) ]
+    % The first row is assumed to be reference angle, this matrix must
+    % have two rows.
+    
+    % Matrix will be contructed in the manner of one of the 
+    % setup methods described from the PhD thesis.  Each of the MTD's
+    % below represent the angular distribution of the camera positions
+    MTD1=[40 138:1.2:150];
+    MTD2=[40 138:0.5:142 146 150];
+    MTD3=[40 138:2.4:150];
+    MTD4=[40 138:1:142 150];
+    MTD5=[40 139 141];
+    
+    MTD=MTD1;  % set MTD to the desired MTD above
+    % From the thesis, camera distance was 50 at all positions, and the
+    % included cone half angle was 0.5 degrees and the exposure 0.5 secs
+    cam_loc=...
+      [50*ones(size(MTD))' MTD' 0.5*ones(size(MTD))' 0.5*ones(size(MTD))'];
+    
+    % NOTE: inconsistant and needs repair - should used lens characteristic 
+    % with distance
+    % to calculate this!  Then eliminate as part of cam_loc matrix
+    half_angle=0.5*pi/180;  % half solid-cone angle in detector camera
+    
+    % polarization of input light relative to ref plane, in radians
+    gamma_ref=90*pi/180;
+    
+    % transmission axis of polarization filter, in radians
+    xi=90*pi/180;
+ 
+    wavelength=514.5;  % laser wavelength, nanometers
+    method='1D'; % computation method for scattering information
+    
+    % if 'on', all the above exposure times MUST be equal.  New exposure
+    % times will be calculated so that every image has the same maximum
+    % brightness.  If set 'off' then the above times will be used and are
+    % allowed to differ from image to image.
+    auto_exposure='on';
+    
+    % image characteristics
+    %y_pix=2044;  % DO NOT exceed 2044x1533 !! bad things happens w/ graphics!!
+    %z_pix=1533;  %    (probably limitation of current graphic card...)
+    y_pix=225;
+    z_pix=900;
+    
+    % super pixels in each diminsion
+    y_sup=3;
+    z_sup=12;
+    
+    % perspective 1=yes, 0=no
+    perspective_yes=1;
+    
+    % Any spheres below this size set to zero.  Must be equal or larger than
+    % smallest size in the DB.
+    % NOTE: really should eliminate, just set based on the loaded DB...
+    min_d=0.1; % micrometers
+    
+    scatdb_filename_str=strcat(' '' ',scatdb_filename_str,''' ');
+    DATA_cell_mat={'','', 'scat_db_filename',scatdb_filename_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    
+    y_z_dots_str=strcat('[',num2str(y_z_dots(1,:)),']');
+    DATA_cell_mat={'','', 'y_z_dots(1,:)',y_z_dots_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    y_z_dots_str=strcat('[',num2str(y_z_dots(2,:)),']');
+    DATA_cell_mat={'','', 'y_z_dots(2,:)',y_z_dots_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    y_z_dots_str=strcat('[',num2str(y_z_dots(3,:)),']');
+    DATA_cell_mat={'','', 'y_z_dots(3,:)',y_z_dots_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    y_z_dots_str=strcat('[',num2str(y_z_dots(4,:)),']');
+    DATA_cell_mat={'','', 'y_z_dots(4,:)',y_z_dots_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    
+    DATA_cell_mat={'','', 'rd',num2str(rd)};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    DATA_cell_mat={'','', 'image_width',num2str(image_width)};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    
+    DATA_cell_mat={'','', 'dg_max',num2str(dg_max)};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    DATA_cell_mat={'','', 'dg_min',num2str(dg_min)};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    sigma_str=strcat('[',num2str(sigma),']');
+    DATA_cell_mat={'','', 'sigma',sigma_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    dist_type_str=strcat(' '' ',dist_type,''' ');
+    DATA_cell_mat={'','', 'dist_type',dist_type_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    
+    DATA_cell_mat={'','', 'y_cent',num2str(y_cent)};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    DATA_cell_mat={'','', 'z_cent',num2str(z_cent)};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    
+    for ii=1:size(MTD,2)
+        cam_loc_var_str=strcat('cam_loc(',num2str(ii),',:)');
+        cam_loc_val_str=strcat('[',num2str(cam_loc(ii,:)),']');
+        DATA_cell_mat={'','', cam_loc_var_str,cam_loc_val_str};
+        inifile(ini_filename,'write',DATA_cell_mat)
+    end
+    
+    DATA_cell_mat={'','', 'half_angle',num2str(half_angle)};
+    inifile(ini_filename,'write',DATA_cell_mat)    
+    DATA_cell_mat={'','', 'gamma_ref',num2str(gamma_ref)};
+    inifile(ini_filename,'write',DATA_cell_mat) 
+    DATA_cell_mat={'','', 'xi',num2str(xi)};
+    inifile(ini_filename,'write',DATA_cell_mat)  
+    DATA_cell_mat={'','', 'wavelength',num2str(wavelength)};
+    inifile(ini_filename,'write',DATA_cell_mat) 
+    
+    method_str=strcat(' '' ',method,''' ');
+    DATA_cell_mat={'','', 'method',method_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    auto_exp_str=strcat(' '' ',auto_exposure,''' ');
+    DATA_cell_mat={'','', 'auto_exposure',auto_exp_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    
+    DATA_cell_mat={'','', 'y_pix',num2str(y_pix)};
+    inifile(ini_filename,'write',DATA_cell_mat)  
+    DATA_cell_mat={'','', 'z_pix',num2str(z_pix)};
+    inifile(ini_filename,'write',DATA_cell_mat) 
+    DATA_cell_mat={'','', 'y_sup',num2str(y_sup)};
+    inifile(ini_filename,'write',DATA_cell_mat)  
+    DATA_cell_mat={'','', 'z_sup',num2str(z_sup)};
+    inifile(ini_filename,'write',DATA_cell_mat) 
+    
+    DATA_cell_mat={'','', 'perspective_yes',num2str(perspective_yes)};
+    inifile(ini_filename,'write',DATA_cell_mat) 
+    
+    DATA_cell_mat={'','', 'min_d',num2str(min_d)};
+    inifile(ini_filename,'write',DATA_cell_mat) 
+    
+    button = questdlg(['The ' ini_filename ' file has been created.  '...
+        'Generate images based on this default behavior?']);
+    switch button
+        case 'No'
+            return
+        case 'Cancel'
+            return
+        otherwise
+    end
+            
+end
 
-% droplet distribution/location
-% each column a different standard deviation
-% each row will be different mean diameter
-% note: one-column case centered at desired angle
+% Evaluate data from the .ini file
+[keys,sections,subsections] = inifile(ini_filename,'readall');
 
-dg_max=50;   % micrometers
-dg_min=1;  %was 0.3
-sigma=[10];  % micrometers
-dist_type='logn';   % Can be 'single', 'logn', or 'norm'   
+key_assignment_string=strcat(keys(:,3),'=',keys(:,4),';');
 
-y_cent=0.075;  % inches  This will be center of the resulting data images
-z_cent=0.3;  % inches
-
-% Camera Angular Location(s) with respect to y_cent,z_cent, above
-% matrix contains data about how the image will be created
-% first row is assumed to be reference angle
-
-% Setup methods from PhD thesis:
-MTD1=[40 138:1.2:150];
-MTD2=[40 138:0.5:142 146 150];
-MTD3=[40 138:2.4:150];
-MTD4=[40 138:1:142 150];
-MTD5=[40 139 141];
-
-% Pick one cam_loc only, corresponding to desired setup method:
-% cam_loc=...
-% [50*ones(size(MTD1))' MTD1' 0.5*ones(size(MTD1))' 0.5*ones(size(MTD1))'];
-% cam_loc=...
-% [50*ones(size(MTD2))' MTD2' 0.5*ones(size(MTD2))' 0.5*ones(size(MTD2))'];
-cam_loc=...
- [50*ones(size(MTD3))' MTD3' 0.5*ones(size(MTD3))' 0.5*ones(size(MTD3))'];
-%cam_loc=...
-% [50*ones(size(MTD4))' MTD4' 0.5*ones(size(MTD4))' 0.5*ones(size(MTD4))'];
-%cam_loc=...
-% [50*ones(size(MTD5))' MTD5' 0.5*ones(size(MTD5))' 0.5*ones(size(MTD5))'];
-
-gamma_ref=90*pi/180;  % polarization of input light relative to ref plane
-                      % else set to 'unpolarized'
-xi=90*pi/180;  % transmission axis of polarization filter
-               % else set to 'no filter'
-half_angle=0.5*pi/180;  % half solid-cone angle in detector camera
-wavelength=514.5;  % laser wavelength, nanometers
-method='1D'; % computation method for scattering information
-     
-% if 'on' then all the above exposure times MUST be equal.  New exposure
-% times will be calculated so that every image has the same maximum 
-% brightness.  If set to 'off' then the above times will be used and are
-% allowed to differ from image to image.
-auto_exposure='on';
-
-% image characteristics
-%y_pix=2044;  % DO NOT exceed 2044x1533 !! bad things happens w/ graphics!!
-%z_pix=1533;  %    (probably limitation of current graphic card...)
-
-y_pix=225;
-z_pix=900;
-
-% super pixels in each diminsion 
-y_sup=3;
-z_sup=12;
-
-% perspective 1=yes, 0=no
-perspective_yes=1;
-
-% Any spheres below this size set to zero.  Must be equal or larger than
-% smallest size in the DB.
-min_d=0.1; % micrometers
+% Assign values to the initalization file variables
+for ii=1:size(key_assignment_string,1)
+    eval(char(key_assignment_string(ii)))
+end
 
 %% Probably no need to change parameters below this point
 
@@ -153,6 +311,12 @@ max_b=0;
 
 [save_file, save_pathname, filterindex] = ...
     uiputfile('*.*', 'Filename to save image files:', 'save_file');
+
+switch save_file
+    case 0
+        return
+    otherwise
+end
 
 % Slow, lazy way to normalize all images in the set but won't destroy 
 % memory in cases of large images or large number of images
