@@ -108,7 +108,7 @@ if exist(ini_filename)==0
     MTD4=[40 138:1:142 150];
     MTD5=[40 139 141];
     
-    MTD=MTD1;  % set MTD to the desired MTD above
+    MTD=MTD5;  % set MTD to the desired MTD above
     % From the thesis, camera distance was 50 at all positions, and the
     % included cone half angle was 0.5 degrees and the exposure 0.5 secs
     cam_loc=...
@@ -146,6 +146,12 @@ if exist(ini_filename)==0
     
     % perspective 1=yes, 0=no
     perspective_yes=1;
+    
+    % output file type and associated parameters
+    image_type='PNG';
+    image_quality=95;  % for JPEG, not used now
+    image_bitdepth=8;  % for JPEG or PNG
+    
     
     % Any spheres below this size set to zero.  Must be equal or larger than
     % smallest size in the DB.
@@ -225,6 +231,12 @@ if exist(ini_filename)==0
     DATA_cell_mat={'','', 'perspective_yes',num2str(perspective_yes)};
     inifile(ini_filename,'write',DATA_cell_mat) 
     
+    image_type_str=strcat(' '' ',image_type,''' ');
+    DATA_cell_mat={'','', 'image_type',image_type_str};
+    inifile(ini_filename,'write',DATA_cell_mat)
+    DATA_cell_mat={'','', 'image_bitdepth',num2str(image_bitdepth)};
+    inifile(ini_filename,'write',DATA_cell_mat) 
+    
     DATA_cell_mat={'','', 'min_d',num2str(min_d)};
     inifile(ini_filename,'write',DATA_cell_mat) 
     
@@ -269,6 +281,8 @@ zcm=(1/pix_res)*(0.5+(z_pix:-1:1)-1);
 distnc=zeros(z_sup,y_sup);
 dg=zeros(z_sup,y_sup);
 sig_g=sigma*ones(z_sup,y_sup);
+
+BDM=(2^image_bitdepth)-1; % bitdepth multiplier
 
 % Calcualte diameters at each superpixel
 for jj=1:z_sup
@@ -416,7 +430,7 @@ for kk=1:size(cam_loc,1)
     end
     
     % normalized brightness matrix (with max at 96% of maximum so data 
-    % won't go to 255 later)
+    % won't go to saturation later)
     II_n=II./(max_b+0.04*max_b);
     
     % iterpolate from superpixel grid onto image resolution
@@ -437,10 +451,12 @@ for kk=1:size(cam_loc,1)
         II_n=cam_loc(kk,4)*II_n;
     end
     
-    II_im=uint8(255*interp2(yc,zc',II_n,ycm,zcm','nearest'));
+    BDM=1;
+    II_im=(BDM*interp2(yc,zc',II_n,ycm,zcm','nearest'));
     warning('on','all');
     
     figure(kk)
+    
     % make an RGB image, using G channel
     for ll=1:3
         if ll==2
@@ -448,7 +464,7 @@ for kk=1:size(cam_loc,1)
         else
             mult=0;
         end
-        II_sv(:,:,ll)=uint8(mult*II_im);
+        II_sv(:,:,ll)=(mult*II_im);
     end
         
     warning('off','Images:initSize:adjustingMag');
@@ -462,18 +478,23 @@ for kk=1:size(cam_loc,1)
                 
         rdpix=round(rd*pix_res);
         
-        red_dot=uint8(zeros(size(II_sv)));
+        red_dot=double(zeros(size(II_sv)));
         e = imellipse(gca,[ypos zpos rdpix rdpix]);
         BW = createMask(e,h_im);
-        II_sv(:,:,1) = immultiply(imcomplement(BW),II_sv(:,:,1));
-        II_sv(:,:,2) = immultiply(imcomplement(BW),II_sv(:,:,2));
-        II_sv(:,:,3) = immultiply(imcomplement(BW),II_sv(:,:,3));
-        red_dot(:,:,1)=uint8(255*BW);
-        II_sv=imadd(red_dot,II_sv);
+        %II_sv(:,:,1) = immultiply(imcomplement(BW),II_sv(:,:,1));
+        %II_sv(:,:,2) = immultiply(imcomplement(BW),II_sv(:,:,2));
+        %II_sv(:,:,3) = immultiply(imcomplement(BW),II_sv(:,:,3));
+        II_sv(:,:,1) = (1-BW).*II_sv(:,:,1);
+        II_sv(:,:,2) = (1-BW).*II_sv(:,:,2);
+        II_sv(:,:,3) = (1-BW).*II_sv(:,:,3);
+        red_dot(:,:,1)=(BDM*BW);
+        II_sv=red_dot+II_sv;
     end
     
     h_im=imshow(II_sv);
-        
+    imtool(II_sv)
+    imwrite(II_sv, 'test.png', 'PNG', 'bitdepth', image_bitdepth)
+    stop
     %% rotate image for perspective
     if perspective_yes==1
         y_cam_pos=cam_loc(kk,1)*cos(pi*cam_loc(kk,2)/180);
@@ -491,13 +512,45 @@ for kk=1:size(cam_loc,1)
             % FDGE is a factor used to trim this up so it works 
             % "best" for all angles even though we just calculate it once.  
             % Smaller "zooms" in more
-            fdge=0.33;
+            fdge=1.5;
             view_angle=fdge*2*180*asin(hh*sin(pi*cam_loc(kk,2)/180)/cc)/pi;
         end
         
         [II_sv H]=create_view([0 y_cent z_cent],...
             [x_cam_pos y_cam_pos 0],view_angle,image_width,II_sv);
-         
+        
+        if kk==1
+            ggg=axis;
+            if z_pix>y_pix
+                xmid=(ggg(1)+ggg(2))/2;
+                xwid=(y_pix/z_pix)*(ggg(4)-ggg(3));
+                %xlim([xmid-xwid/2 xmid+xwid/2])
+                ymid=(ggg(3)+ggg(4))/2;
+                ywid=ggg(4)-ggg(3);
+            else
+                xmid=(ggg(1)+ggg(2))/2;
+                xwid=ggg(2)-ggg(1);
+                ymid=(ggg(3)+ggg(4))/2;
+                ywid=(z_pix/y_pix)*(ggg(2)-ggg(1));
+                %ylim([ymid-ywid/2 ymid+ywid/2])    
+            end
+        end
+        imtool(II_sv)
+        pause
+        OUTv=imcrop(II_sv,[xmid-xwid/2 ymid-ywid/2 xwid ywid]);
+        imtool(OUTv)
+        size(OUTv)
+        size(1:size(OUTv,2))
+        
+        OUTv_r=interp2(1:size(OUTv,2),(1:size(OUTv,1))',OUTv(:,:,1),1:z_pix,(1:y_pix)');
+        
+        imwrite(OUTv_r, 'temp.png', 'PNG', 'bitdepth', 16)
+        figure(100)
+        imshow(OUTv);
+        
+        stop
+        truesize(gcf,[z_pix y_pix])
+        saveas(gcf,'temp1.png','png')
         % matlab output is awful for things like this, so print figure to
         % temp,
         % lossless file and then re-open.  this method uses graphics card
@@ -509,11 +562,16 @@ for kk=1:size(cam_loc,1)
 
         set(H,'paperunits','inches','paperposition',...
             [0 0 output_size/resolution]);
-        print('temp.tif','-dtiffnocompression',['-r' num2str(resolution)]);
         
+        %print('temp.tif','-dtiffn',['-r' num2str(resolution)]);
+        print('temp.png','-dpng',['-r' num2str(resolution)]);
+        
+        figure(100)
+        imshow(II_sv)
+        pause
         clear II_sv
         II_sv=imread('temp.tif');
-       
+        pause
         close(H)
         
         delete('temp.tif')
@@ -521,11 +579,24 @@ for kk=1:size(cam_loc,1)
     end
     
     %% save the images and data
-    % control over final quality of files here - can be JPEG or TIFF or
-    % anything.  Actual diameter data is saved in the .mat files
-    save_string=strcat(save_pathname,save_file,'-',num2str(kk),'_',...
-        num2str(cam_loc(kk,2)),'.jpg');
-    imwrite(II_sv, save_string, 'JPEG', 'Quality', 95)
+    % control over final quality of files here
+    % Actual diameter data is saved in the .mat files
+    
+    switch image_type
+        case {'JPEG','JPG','jpeg','jpg'}
+            save_string=strcat(save_pathname,save_file,'-',num2str(kk),'_',...
+                num2str(cam_loc(kk,2)),'.jpg');
+            imwrite(II_sv, save_string, 'JPEG', 'Quality', image_quality,'bitdepth',image_bitdepth)
+            
+        case {'PNG','png'}
+            save_string=strcat(save_pathname,save_file,'-',num2str(kk),'_',...
+                num2str(cam_loc(kk,2)),'.png');
+            imwrite(uint16(II_sv), save_string, 'PNG', 'bitdepth', image_bitdepth)
+        otherwise
+            h=errordlg(['Image type ''' image_type ''' is not supported.']);
+            return
+    end
+    
     save_string=strcat(save_pathname,save_file,'_dg-',num2str(kk),'_',...
         num2str(cam_loc(kk,2)),'.mat');
     save(save_string,'dg_im','ycorr','zcorr');
@@ -533,8 +604,9 @@ for kk=1:size(cam_loc,1)
         num2str(cam_loc(kk,2)),'.mat');
     save(save_string,'II_n','ycorr','zcorr');
     
+    
     figure(kk)
-    h_im=imshow(II_sv);
+    h_im=imshow(uint16(II_sv));
     clear II_sv BW red_dot II_im
 end
 
