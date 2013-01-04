@@ -12,7 +12,7 @@ function [corrected_img] = make_image_projection(target_coords,...
 % Copyright (C) 2013, Stephen D. LePera.  GNU General Public License, v3.
 % Terms available in GPL_v3_license.txt, or <http://www.gnu.org/licenses/>
 
-% Need path to plane_line_intersect.m third-party function
+% Need path to plane_line_intersect.m, a third-party function
 addpath ../../multi_angle_mie_sizing_3rd_party/helper_functions
 
 %camera_coords=[5 -20 0];

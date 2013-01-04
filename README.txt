@@ -20,15 +20,17 @@ The Repo TAG "dissertation" should take you back to the original commit of the d
 
 tar -jxf multi-angle-mie-sizing_v1.tar.bz2
 
-Additional installation instructions are found within the README.install included in the multi-angle-mie-sizing_v1.tar.bz2 package.  Do not use the Repo install instructions with the old v1 package, use the included install instructions.
+Additional installation instructions are found within the README.install included in the multi-angle-mie-sizing_v1.tar.bz2 package.  Do NOT use the Repo install instructions with the old v1 package, use the included install instructions.
 
 DOCUMENTATION
 
-Documentation currently consists of reading my dissertation - sorry about that.  But there is a complete HOWTO step-by-step example in the Appendix.  My recomenndation is to download the Version 1 tar.bz2 package and install it as suggested.  Get my dissertation from http://www.lib.vt.edu/.  Read it, go through the example in the appendix.  At that point you will have the basic idea about things and can move on to the latest version and features.
+Complete documentation currently consists of reading my dissertation and following the complete HOWTO step-by-step example in the Appendix- sorry about that.  This means downloading the Version 1 tar.bz2 package and installing it as suggested.  Get my dissertation from http://www.lib.vt.edu/.  Read it, go through the example in the appendix.  At that point you will have the basic idea about things and can move on to the latest version and features.
 
-The documentation for the latest version(s) in the Repo is probably going to be lagging behind development (other than than comments in the code), so having the original version as a starting point should help.  If you want to grab the Repo and modify things, feel free to contact me so I can explain what is going on, and we can work together constructively. 
+The MASTER branch in the repository now has limited documentatio, consisting only of a complete HOWTO step-by-step example in the Appendix.  There is no in-depth explanation of options or use.  Ultimately this documentation will completely replace the disertation, but that point is still in the distant future.
+
+If you grab the Repo and want to modify things, feel free to contact me so I can explain what is going on, and we can work together constructively. 
 
 
 Thanks for your iterest.
 Stephen LePera
-Virginia Tech, 2012
+2013

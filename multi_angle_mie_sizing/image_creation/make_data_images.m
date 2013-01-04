@@ -30,7 +30,7 @@ ini_filename=strcat(current_path,data_file);
 if exist(ini_filename)==0
     % does not exist, make a new ini file
     [data_file, current_path, filterindex] = uiputfile('*.ini',...
-        'Save as:', ini_filename);
+        'Save initialization file as:', ini_filename);
     ini_filename=strcat(current_path,data_file);
     
     % Clears any old ini files of the same name and path
@@ -89,7 +89,7 @@ if exist(ini_filename)==0
     sigma=[10];  % micrometers
     dist_type='logn';   % Can be 'single', 'logn', or 'norm'
     
-    y_cent=0.075;  % inches  This will be center of the resulting data images
+    y_cent=0.075;  % inches  This will be center of resulting data images
     z_cent=0.3;  % inches
     
     % Camera Angular Location(s) with respect to y_cent,z_cent, above.
@@ -108,7 +108,7 @@ if exist(ini_filename)==0
     MTD4=[40 138:1:142 150];
     MTD5=[40 139 141];
     
-    MTD=MTD5;  % set MTD to the desired MTD above
+    MTD=MTD3;  % set MTD to the desired MTD above
     % From the thesis, camera distance was 50 at all positions, and the
     % included cone half angle was 0.5 degrees and the exposure 0.5 secs
     cam_loc=...
@@ -135,8 +135,8 @@ if exist(ini_filename)==0
     auto_exposure='on';
     
     % image characteristics
-    %y_pix=2044;  % DO NOT exceed 2044x1533 !! bad things happens w/ graphics!!
-    %z_pix=1533;  %    (probably limitation of current graphic card...)
+    %y_pix=2044;  % 
+    %z_pix=1533;  %  
     y_pix=225;
     z_pix=900;
     
@@ -149,12 +149,11 @@ if exist(ini_filename)==0
     
     % output file type and associated parameters
     image_type='PNG';
-    image_quality=95;  % for JPEG, not used now
-    image_bitdepth=8;  % for JPEG or PNG
-    
-    
-    % Any spheres below this size set to zero.  Must be equal or larger than
-    % smallest size in the DB.
+    image_quality=95;  % for JPEG, not used for PNG
+    image_bitdepth=16;  % for JPEG or PNG
+        
+    % Any spheres below this size set to zero.  Must be equal or larger
+    % than smallest size in the DB.
     % NOTE: really should eliminate, just set based on the loaded DB...
     min_d=0.1; % micrometers
     
@@ -264,9 +263,6 @@ end
 
 %% Probably no need to change parameters below this point
 
-current_path=pwd; 
-startpath=current_path;  % sets the startpath in the dialog to current path
-
 % resolution, pixels/inch
 pix_res=y_pix/image_width;
 image_height=z_pix/pix_res;
@@ -321,8 +317,9 @@ X=[B.theta];
 % used to normalize images
 max_b=0;
 
-[save_file, save_pathname, filterindex] = ...
-    uiputfile('*.*', 'Filename to save image files:', 'save_file');
+[save_file, current_path, filterindex] = ...
+    uiputfile('*.*', 'Filename to save image files:', ...
+    strcat(current_path,'save_file'));
 
 switch save_file
     case 0
@@ -491,7 +488,8 @@ for kk=1:size(cam_loc,1)
     if perspective_yes==1
         y_cam_pos=cam_loc(kk,1)*cos(pi*cam_loc(kk,2)/180);
         x_cam_pos=cam_loc(kk,1)*sin(pi*cam_loc(kk,2)/180);
-        [II_sv]=make_image_projection([0 y_cent z_cent],[x_cam_pos y_cam_pos 0],image_width,y_pix,z_pix,II_sv);
+        [II_sv]=make_image_projection([0 y_cent z_cent],...
+            [x_cam_pos y_cam_pos 0],image_width,y_pix,z_pix,II_sv);
     end
     
     %% save the images and data
@@ -500,18 +498,21 @@ for kk=1:size(cam_loc,1)
     warning('off','MATLAB:intConvertNonIntVal')
     warning('off','MATLAB:intConvertOverflow')
     
+    save_pathname=current_path;
     switch image_type
         case {'JPEG','JPG','jpeg','jpg'}
-            save_string=strcat(save_pathname,save_file,'-',num2str(kk),'_',...
-                num2str(cam_loc(kk,2)),'.jpg');
-            imwrite(II_sv, save_string, 'JPEG', 'Quality', image_quality,'bitdepth',image_bitdepth)
+            save_string=strcat(save_pathname,save_file,'-',num2str(kk),...
+                '_',num2str(cam_loc(kk,2)),'.jpg');
+            imwrite(II_sv, save_string, 'JPEG', 'Quality',...
+                image_quality,'bitdepth',image_bitdepth)
             
         case {'PNG','png'}
-            save_string=strcat(save_pathname,save_file,'-',num2str(kk),'_',...
-                num2str(cam_loc(kk,2)),'.png');
+            save_string=strcat(save_pathname,save_file,'-',num2str(kk),...
+                '_',num2str(cam_loc(kk,2)),'.png');
             imwrite(II_sv, save_string, 'PNG', 'bitdepth', image_bitdepth)
         otherwise
-            h=errordlg(['Image type ''' image_type ''' is not supported.']);
+            h=errordlg(...
+                ['Image type ''' image_type ''' is not supported.']);
             return
     end
     warning('on','all');
