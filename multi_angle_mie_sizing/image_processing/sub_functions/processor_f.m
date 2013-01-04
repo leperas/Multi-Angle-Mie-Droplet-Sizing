@@ -125,11 +125,16 @@ end
 image_width=y_pix/pix_res;
 image_height=z_pix/pix_res;
 
+dot_spc_y=test_section_red_dot_2(2)-test_section_red_dot_1(2);
+dot_spc_z=test_section_red_dot_3(3)-test_section_red_dot_1(3);
+
 delta_y=test_section_red_dot_2(2)-test_section_red_dot_1(2);
 delta_z=test_section_red_dot_2(3)-test_section_red_dot_1(3);
 
-% lower left dot (dot1) will be 10% up and 10% over from bottom left corner
-dot1=[0.075*y_pix                  0.925*z_pix];
+% lower left dot (dot1) will be placed such that red dots are centered
+%dot1=[0.075*y_pix                  0.925*z_pix] % old way, yuk
+dot1(1,1)=(image_width-dot_spc_y)*pix_res/2;
+dot1(1,2)=z_pix-(image_height-dot_spc_z)*pix_res/2;
 
 dot2=[dot1(1)+pix_res*delta_y    dot1(2)-pix_res*delta_z];
 
@@ -177,7 +182,6 @@ mfprintf(fids,'**** Reference Image **** \n');
 
 % data image is read,
 ref_dat_img=imread(reference_data_image_name);
-ref_dat_img_info=imfinfo(reference_data_image_name);
 
 % If there were image distortions (other than perspective!), correct BOTH
 % ref_img and ref_dat_img HERE:
@@ -450,6 +454,7 @@ for kk=1:num_angles
     eval(data_name_string)
     
     angle_reg_img=imread(registration_name);
+    angle_reg_img_inf=imfinfo(registration_name);
     angle_dat_img=imread(data_name);
     
     % read in the initialization information for these images
@@ -472,7 +477,7 @@ for kk=1:num_angles
     % -------------
     
     % dots are located in the reference registration image
-    coords=redotlocator_v4(angle_reg_img,0);
+    coords=redotlocator(angle_reg_img,angle_reg_img_inf,0);
     
     % camera position, as given
     camera_position(kk,:)=[cam_distance*sin(cam_angle(kk)*pi/180) ...
