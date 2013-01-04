@@ -1,44 +1,43 @@
-function XY_coords = redotlocator_v4(img, show_figs) 
+function XY_coords = redotlocator(img, img_info, show_figs) 
 % if show_figs=1 figs will show, else they won't
 %
-% Copyright (C) 2012, Stephen D. LePera.  GNU General Public License, v3.
+% Copyright (C) 2013, Stephen D. LePera.  GNU General Public License, v3.
 % Terms available in GPL_v3_license.txt, or <http://www.gnu.org/licenses/>
 
 warning('off','Images:initSize:adjustingMag');
 
 max_dots=4;
+% threshold defining "mostly red"
 cut_off=0.4;
 d_size=10;
 
-l=size(img);
 img(img==0)=1; % makes math happier
 
-RGB=double(img)/255;
-R=RGB(:,:,1);
-G=RGB(:,:,2);
-B=RGB(:,:,3);
+pixel_max=(2^(img_info.BitDepth/size(img,3))-1);
+
+% Do in 'truecolor' (0-1) space, no matter the input image
+R=double(img(:,:,1))/pixel_max;
+G=double(img(:,:,2))/pixel_max;
+B=double(img(:,:,3))/pixel_max;
 
 R_rel=R./(R+G+B);
-
-R_rel_im=uint8(round(255*R_rel));
 
 R_rel(R_rel<=cut_off)=0;
 R_rel(R_rel>cut_off)=1;
 
-
+% Back to 8-bit color to save processing time
 img_both=uint8(255*R_rel);
-
 
 warning('off', 'MATLAB:intConvertOverflow')
 warning('off', 'MATLAB:intMathOverflow')
 
 % gets rid of specs
 filtered=medfilt2(img_both,[10 10]);
+
 % fills in holes
 background = imclose(filtered,strel('disk',d_size));
 
-II=imadd(background,rgb2gray(img));
-
+II=imadd(background,rgb2gray(uint8(img)));
 
 % Find the boundaries Concentrate only on the exterior boundaries.
 % Option 'noholes' will accelerate the processing by preventing
@@ -46,7 +45,7 @@ II=imadd(background,rgb2gray(img));
 [B,L] = bwboundaries(background, 'noholes');
 
 % Determine objects properties
-
+warning('off','MATLAB:divideByZero')
 STATS = regionprops(L, 'all'); % we need Centroid'
 
 if show_figs==1
@@ -54,7 +53,7 @@ if show_figs==1
     figure
     imshow(img)
     figure
-    imshow(R_rel_im)
+    imshow(R_rel)
     figure
     imshow(img_both)
     figure
@@ -121,7 +120,6 @@ for i=1:4
             set(H,'Color',[1 1 1]);
         end
  end
-
 
 
 warning('on','all');
