@@ -182,6 +182,7 @@ mfprintf(fids,'**** Reference Image **** \n');
 
 % data image is read,
 ref_dat_img=imread(reference_data_image_name);
+ref_dat_img_info=imfinfo(reference_data_image_name);
 
 % If there were image distortions (other than perspective!), correct BOTH
 % ref_img and ref_dat_img HERE:
@@ -213,10 +214,13 @@ new_coords=find_reg_offset(coords, scaled_coords, ref_camera_position);
 %% Set everyhting below the threshold to zero
 ref_img_trans_orig(ref_img_trans_orig<output_threshold)=0;
 
+%% Set data to a matrix of brightness fractional values between 0 and 1
+pixel_max=(2^(ref_dat_img_info.BitDepth/size(ref_img_trans_orig,3))-1);
+ref_img_trans_orig_frac=double(ref_img_trans_orig(:,:,output_color_channel))/pixel_max;
+
 %% apply camera correction
 ref_img_trans=make_image_correction(...
-    double(ref_img_trans_orig(:,:,output_color_channel))/255,...
-    output_correction_file_name);
+    ref_img_trans_orig_frac, output_correction_file_name);
 
 %% Histogram of data.  Check against too many saturated pixels.
 [counts bins]=imhist(ref_img_trans_orig(:,:,output_color_channel));
@@ -456,6 +460,7 @@ for kk=1:num_angles
     angle_reg_img=imread(registration_name);
     angle_reg_img_inf=imfinfo(registration_name);
     angle_dat_img=imread(data_name);
+    angle_dat_img_inf=imfinfo(registration_name);
     
     % read in the initialization information for these images
     angle_string=strcat('cam_angle(kk)=angle',num2str(kk),'_angle;');
@@ -497,10 +502,13 @@ for kk=1:num_angles
     %% Set everyhting below the threshold to zero
     angle_img_trans_orig(angle_img_trans_orig<output_threshold)=0;
     
+    %% Set data to a matrix of brightness fractional values between 0 and 1
+    pixel_max=(2^(angle_dat_img_inf.BitDepth/size(angle_img_trans_orig,3))-1);
+    angle_img_trans_orig_frac=double(angle_img_trans_orig(:,:,output_color_channel))/pixel_max;
+    
     %% Apply camera correction
     angle_img_trans=make_image_correction(...
-        double(angle_img_trans_orig(:,:,output_color_channel))/255,...
-        output_correction_file_name);
+        angle_img_trans_orig_frac, output_correction_file_name);
     
     %% Histogram of data.  Check against too many saturated pixels.
     [counts bins]=imhist(angle_img_trans_orig(:,:,output_color_channel));

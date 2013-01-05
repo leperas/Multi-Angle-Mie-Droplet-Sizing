@@ -108,7 +108,7 @@ if exist(ini_filename)==0
     MTD4=[40 138:1:142 150];
     MTD5=[40 139 141];
     
-    MTD=MTD3;  % set MTD to the desired MTD above
+    MTD=MTD1;  % set MTD to the desired MTD above
     % From the thesis, camera distance was 50 at all positions, and the
     % included cone half angle was 0.5 degrees and the exposure 0.5 secs
     cam_loc=...

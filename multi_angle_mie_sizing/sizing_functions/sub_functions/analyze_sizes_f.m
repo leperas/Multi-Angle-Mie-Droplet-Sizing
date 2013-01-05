@@ -133,6 +133,8 @@ for mm=1:size(config_try_sigma,2)
        2*pi*config_try_sigma(mm)*1e3/input_wavelength,...
        config_try_dist_type{mm},ini_filename);
     
+  
+   
     for ii=1:ny
         for jj=1:nz
             
@@ -142,6 +144,7 @@ for mm=1:size(config_try_sigma,2)
             
             [groups angles group_mean_size group_std_dev]=...
                 make_groups_f(mean_size_groups,input_seed_index);
+            
             
             for ll=1:size(groups,2)
                 grp_elements(ll)=size(groups{ll},2);
@@ -333,34 +336,34 @@ for ii=1:ny
                ['\sigma=' num2str(best_sigma(jj,ii)) ', ' ...
                best_dist{jj,ii} ' distribution']);
             
-%            % Uncomment to also plot a "known" Mie theory curve
-%            known_d=3.5;
-%            known_dist='logn';
-%            known_sig=2;
-%            kdx=2*pi*(known_d/2)*1e3/input_wavelength;
-%            sig_gx=2*pi*(known_sig)*1e3/input_wavelength;
-%             for kk=1:size(output_plot_angle_range,2)
-%               [IntIk Isr2_dist Qsr2_dist Usr2_dist Vsr2_dist matches]=...
-%                     Irr_int(kdx, sig_gx, known_dist,...
-%                     r_d_ang, r_phi, input_half_angle, input_gamma_ref,...
-%                     input_xi,input_scatter_calc_meth);
-%                 
-%              [AIntIk Isr2_dist Qsr2_dist Usr2_dist Vsr2_dist matches]=...
-%                     Irr_int(kdx, sig_gx, known_dist,...
-%                     output_plot_angle_range(kk)*pi/180, r_phi,...
-%                     input_half_angle, input_gamma_ref,input_xi,...
-%                     input_scatter_calc_meth);
-%                 
-%                R_IIk(kk)=AIntIk/IntIk;
-%                 
-%             end
-%             plot(output_plot_angle_range,R_IIk,'g-')
-%             lgnd_cnt=lgnd_cnt+1;
-%             legend_str{lgnd_cnt}=strvcat(['Known Mie theory: d=' ...
-%                num2str(known_d)],...
-%                ['\sigma=' num2str(known_sig) ', ' ...
-%                known_dist ' distribution']);
-%            % End "Known" section
+           % Uncomment to also plot a "known" Mie theory curve
+           known_d=1;
+           known_dist='logn';
+           known_sig=10;
+           kdx=2*pi*(known_d/2)*1e3/input_wavelength;
+           sig_gx=2*pi*(known_sig)*1e3/input_wavelength;
+            for kk=1:size(output_plot_angle_range,2)
+              [IntIk Isr2_dist Qsr2_dist Usr2_dist Vsr2_dist matches]=...
+                    Irr_int(kdx, sig_gx, known_dist,...
+                    r_d_ang, r_phi, input_half_angle, input_gamma_ref,...
+                    input_xi,input_scatter_calc_meth);
+                
+             [AIntIk Isr2_dist Qsr2_dist Usr2_dist Vsr2_dist matches]=...
+                    Irr_int(kdx, sig_gx, known_dist,...
+                    output_plot_angle_range(kk)*pi/180, r_phi,...
+                    input_half_angle, input_gamma_ref,input_xi,...
+                    input_scatter_calc_meth);
+                
+               R_IIk(kk)=AIntIk/IntIk;
+                
+            end
+            plot(output_plot_angle_range,R_IIk,'g-')
+            lgnd_cnt=lgnd_cnt+1;
+            legend_str{lgnd_cnt}=strvcat(['Known Mie theory: d=' ...
+               num2str(known_d)],...
+               ['\sigma=' num2str(known_sig) ', ' ...
+               known_dist ' distribution']);
+           % End "Known" section
            
             switch config_use_poly
                 case 'Yes'

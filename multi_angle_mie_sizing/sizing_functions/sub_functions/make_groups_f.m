@@ -86,17 +86,20 @@ for kk=kk_index_order
             % instead just create new group
             match_diff=abs(match_set2(ind(I(ll),1))-...
                 match_set1(ind(I(ll),2)));
+            
             if (match_diff<adj_diff(ind(I(ll),1)) && ...
                     match_diff<adj_diff(ind(I(ll),1)+1) )
                 % Prevent adding values to a group that are way off
                 % scales arbitrarily from 100% at small diameters down to 
                 % 25% at larger diameters.
                 s_fact=(-0.7/1000)*match_set2(ind(I(ll),1))+1;
+               
                 if s_fact<0.20
                     s_fact=0.20;
                 end
                 %s_fact=0.15;
-                if match_diff<s_fact*match_set2(ind(I(ll),1))
+                if match_diff<s_fact*match_set1(ind(I(ll),2))
+                %if match_diff<s_fact*match_set2(ind(I(ll),1))
                    groups{ind(I(ll),2)}(grp_sz+1)=match_set2(ind(I(ll),1));
                    angles{ind(I(ll),2)}(grp_sz+1)=kk;
                    used_ind(I(ll),:)=ind(I(ll),:);
