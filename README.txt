@@ -10,7 +10,7 @@ A quick disclimer: I am not a programmer; suggestions and improvements are welco
 ----------------
 VERSIONS and BRANCHES
 
--- master: This is the repository you want; there may be many other branches but Master should contain the latest working version of everything, EXCEPT you must download the scattering coeffcient database files separately and unzip them into the ./multi_angle_mie_sizing/database_files directory.  I will keep a copy of any databases I generate updated in the download section.  These are NOT part of the Repo.  Installation instructions are found in README.install.
+-- master: This is the repository you want; there may be many other branches but Master should contain the latest working version of everything, EXCEPT you must download the scattering coeffcient database files separately and unzip them into the ./multi_angle_mie_sizing/database_files directory.  I will keep a copy of any databases I generate updated on my Google+ Drive.  These are NOT part of the Repo.  Installation instructions are found in README.install.
 
 -- Version 1 - Tag: dissertation
 
@@ -18,7 +18,10 @@ The master repository TAG "dissertation" should take you back to the original co
 
 -- The compressed download (old)
 
-There are no updates, bug fixes, or new features...but perhaps the simplest way to get started is to download the tar.bz2 package.  All the files referenced within the dissertation are contained within multi-angle-mie-sizing_v1.tar.bz2, including the appropriate cross section database files.  This v1 package will not change or be updated in order to maintain consistancy with the original dissertation document.  This package is available in the download section.  To install, put this file into it's own directory and run:
+There are no updates, bug fixes, or new features...but perhaps the simplest way to get started is to download the tar.bz2 package.  All the files referenced within the dissertation are contained within multi-angle-mie-sizing_v1.tar.bz2, including the appropriate cross section database files.  This v1 package will not change or be updated in order to maintain consistancy with the original dissertation document.  This package is available on my Google+ Drive at the following URL:
+
+
+To install, put this file into it's own directory and run:
 
 tar -jxf multi-angle-mie-sizing_v1.tar.bz2
 
