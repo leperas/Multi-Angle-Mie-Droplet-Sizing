@@ -85,7 +85,7 @@ if exist(ini_filename)==0
     % note: one-column case centered at desired angle
     
     dg_max=50;   % micrometers
-    dg_min=1;    % micrometers
+    dg_min=0.5;    % micrometers
     sigma=[10];  % micrometers
     dist_type='logn';   % Can be 'single', 'logn', or 'norm'
     
@@ -108,7 +108,7 @@ if exist(ini_filename)==0
     MTD4=[40 138:1:142 150];
     MTD5=[40 139 141];
     
-    MTD=MTD1;  % set MTD to the desired MTD above
+    MTD=MTD3;  % set MTD to the desired MTD above
     % From the thesis, camera distance was 50 at all positions, and the
     % included cone half angle was 0.5 degrees and the exposure 0.5 secs
     cam_loc=...

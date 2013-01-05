@@ -337,7 +337,7 @@ for ii=1:ny
                best_dist{jj,ii} ' distribution']);
             
 %            % Uncomment to also plot a "known" Mie theory curve
-%            known_d=7.125;
+%            known_d=0.3;
 %            known_dist='logn';
 %            known_sig=10;
 %            kdx=2*pi*(known_d/2)*1e3/input_wavelength;

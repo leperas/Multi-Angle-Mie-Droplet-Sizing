@@ -70,4 +70,4 @@ B =
 
 \end{verbatim}
 
-For any new materials used, a new scattering coefficient database is required.  In addition, a new sizing look-up database (discussed in Section \ref{sizing_calcuations}) must be built from scratch before any sizing calculations may be started. 
+For any new materials used, a new scattering coefficient database is required.  In addition, a new sizing look-up database (discussed in Section \ref{sizing_calcuations}) must be built from scratch before any sizing calculations may be started.

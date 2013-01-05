@@ -1,4 +1,6 @@
 # ignore the ./temp directory #
 #############################################
 temp/
-
+multi_angle_mie_sizing/database_files/*.mat
+*.dvi
+*.backup

@@ -60,6 +60,7 @@
 \contentsline {section}{\numberline {B.2}Creation of the Scattering Cross Section Database}{106}{section.B.2}
 \contentsline {section}{\numberline {B.3}Make an Image Data Set}{108}{section.B.3}
 \contentsline {subsection}{\numberline {B.3.1}Test the Intensity Function}{108}{subsection.B.3.1}
-\contentsline {subsection}{\numberline {B.3.2}Make Simulated Data Images}{110}{subsection.B.3.2}
-\contentsline {section}{\numberline {B.4}Image Processing the Data Set}{111}{section.B.4}
-\contentsline {section}{\numberline {B.5}Size Processing the Data Set}{111}{section.B.5}
+\contentsline {subsection}{\numberline {B.3.2}Real Images}{110}{subsection.B.3.2}
+\contentsline {subsection}{\numberline {B.3.3}Make Simulated Data Images}{111}{subsection.B.3.3}
+\contentsline {section}{\numberline {B.4}Image Processing the Data Set}{114}{section.B.4}
+\contentsline {section}{\numberline {B.5}Size Processing the Data Set}{116}{section.B.5}

@@ -33,7 +33,7 @@
 *.asv
 *.sql
 *.sqlite
-*.mat
+#*.mat
 *.tmp
 
 # OS generated files #
