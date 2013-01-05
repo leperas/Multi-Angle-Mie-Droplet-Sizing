@@ -1,0 +1,36 @@
+\chapter{Example - Optical Method for Planar Measurement of Spray Characteristics}
+\label{step_by_step_example}
+
+The following sections present a step-by-step, Matlab-command-specific example of the entire multi-angle Mie scattering sizing method.  It will be assumed that Matlab is installed and working.  In addition, the example is executed using the linux version of Matlab; a few unix-specific commands are necessary within the sizing routines however it should be straightforward for a Windows user to make appropriate changes in these few cases.  Interested Windows users should contact the author; addition of a Windows-specific tree or improved coding allowing unrestricted use on both platforms would be welcomed.
+
+\section{Get the Code}
+\subsection{Downloading the Dissertation Code}
+The Matlab routines necessary to implement the ``Multi-Angle-Mie-Sizing'' method are hosted at:
+
+https://github.com/leperas/Multi-Angle-Mie-Droplet-Sizing
+
+The version directly referenced within the current work is denoted as Version 1, or v1 and is found in the download section.  
+
+Additionally, the actual github repository is where the latest updates, capabilities, and new versions will be found.  The README within that repository should contain the most updated information about the project.
+
+\subsection{Installing the Code}
+Installation instructions are part of the code download, contained in the file README.install.  The most up-to-date install and configuration information will be maintained within that file.
+
+\subsection{Contributing to the Code}
+Currently documentation consists of this dissertation and the comments within the code.  Users interested in contributing new or improved code or documentation should start by installing \textbf{git} and then getting the latest software from https://github.com/leperas/Multi-Angle-Mie-Droplet-Sizing.  Contact the author in order to coordinate efforts.  
+
+\section{Creation of the Scattering Cross Section Database}
+
+%\input{./appendix_example/make_database/make_database.tex}
+
+\section{Make an Image Data Set}
+
+%\input{./appendix_example/make_images/make_images.tex}
+
+\section{Image Processing the Data Set}
+
+%\input{./appendix_example/do_processing/do_processing.tex}
+
+\section{Size Processing the Data Set}
+
+%\input{./appendix_example/do_sizing/do_sizing.tex}

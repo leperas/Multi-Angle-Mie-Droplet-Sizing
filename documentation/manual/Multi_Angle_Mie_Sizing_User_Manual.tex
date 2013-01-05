@@ -1,0 +1,127 @@
+% Author: Steve LePera
+
+% This is a top-level document.  Data is in separate
+% documents, then included in this document with the \include commands
+% By commenting out lines in the \includeonly command below, you only
+% have to compile-debug one piece at a time
+
+% Sets up general behavior of the document.  Additional behavior
+% can be specified with the \usepackage command
+\documentclass[letterpaper,12pt,dvips,oneside]{book}
+
+% Adds Bibliography to the toc, and removes listing of the toc
+% itself in the toc.
+\usepackage[nottoc]{tocbibind}
+%\usepackage{color}
+%\usepackage{epsfig}
+\usepackage{longtable}
+\usepackage[dvips]{graphicx}
+\usepackage[hang]{caption}
+\usepackage[dvipdfmx,bookmarks=true,bookmarksopen=true,bookmarksopenlevel=1]{hyperref}
+% allows input of entire matlab-formatted files
+\usepackage[framed,numbered]{mcode}
+\usepackage{paralist}
+\setlength{\pltopsep}{-10pt}
+%\usepackage{microtype}
+
+% all this to have a cool footer
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{0pt}% Remove header rule
+\fancyhead{}% Remove all header contents
+\fancyfoot{}
+%\fancyfoot[C]{THIS IS A DRAFT.  Do not copy or distribute.}
+%\fancyfoot[R] {\thepage}
+\fancyfoot[C] {\thepage}
+
+\includeonly{
+%Draft_Cover,
+title_page,
+%acknowledgements,
+table_of_contents,
+list_of_figures,
+list_of_tables,
+./chapter1/chapter_1,
+%./chapter2/chapter_2,
+%./chapter3/chapter_3,
+%./appendix_code/appendix_code,
+./example/example
+}
+
+% Basic info and text which might be repeated many times throughout the
+% document that could be subject to modification.
+%\newcommand{\thesistitle}{Development of a Novel Optical Method for Planar Measurement of Spray Characteristics} 
+\newcommand{\thetitle}{Multi-Angle Mie Sizing Method \\ User Manual} 
+\newcommand{\theauthor}{Stephen D. LePera}
+\newcommand{\theauthoraddress}{3355 Lila Drive  \\ Orlando, FL, 32806 \\ USA} 
+\newcommand{\themonth}{February 3}  % Useful in case you, uh, don't really get done as fast as you hoped.
+\newcommand{\theyear}{2012}
+
+% sets up margins
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.5in}
+\setlength{\evensidemargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\topmargin}{0in}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.1in}
+
+% Uncomment for double-spaced document.
+%\renewcommand{\baselinestretch}{2}
+
+% The beginning of the actual document
+\begin{document}
+% the empty pagestyle suppresses page numbering
+\thispagestyle{empty}
+\pagenumbering{roman}
+%\include{Draft_Cover}
+%\pagebreak
+\include{title_page}
+\pagebreak
+
+% plain pagestyle has no header but prints page number at bottom
+\pagestyle{fancy}
+\include{acknowledgements}
+\pagebreak
+
+\include{table_of_contents}
+\pagebreak
+
+\include{list_of_figures}
+\pagebreak
+
+\include{list_of_tables}
+\pagebreak
+
+% Start of chapters, begin numbering with arabic numerals, starts w/ 1
+% Use \setcounter if you want something else.
+\pagenumbering{arabic}
+\include{./chapter1/chapter_1}
+\pagebreak
+
+% Any following chapters are added as below:
+
+\include{./chapter2/chapter_2}
+\pagebreak
+
+\include{./chapter3/chapter_3}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+% This is for BibTeX.  These two lines can be commented out 
+% until you have some citations.
+
+\bibliographystyle{plain}
+\bibliography{/home/leperas/sandbox/TeX/bibtex/SDL_bibtex_bibliography_db.bib}
+
+% In LaTeX, each appendix is a "chapter" which follows the
+% \appendix command
+\appendix
+\include{./appendix_code/appendix_code}
+\pagebreak
+
+\include{./example/example}
+\pagebreak
+
+\end{document}

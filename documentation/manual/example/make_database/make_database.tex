@@ -1,0 +1,72 @@
+Before anything may be done, a scattering cross section database must exist or be created.  Two files are included with the complete code download:
+\begin{verbatim}
+ ./multi_angle_mie_sizing/mie_m_code/database_files/
+          scattering_coefficients_database2.mat
+\end{verbatim}
+and
+\begin{verbatim}
+ ./multi_angle_mie_sizing/mie_m_code/database_files/
+          scattering_coefficients_database_all_angs.mat
+\end{verbatim}
+Both files are for water, with index of refraction $1.33 + 0i$.  The first is the data set that was used for the current work.  This set only contains scattering coefficients at angles important to the sizing method, but has a high angular resolution and wide size parameter range.  The second file was used to make a number of plots in the current work and contains data from angles 0-180\textdegree, but the data is only at limited resolution, and is not suitable for most sizing calculations.
+
+For other substances, a new scattering coefficient database must be generated.  This takes a long time; the following example will include commands suitable for sending the database creation into the background where it may run uninterrupted for days.
+
+Change to the directory containing \texttt{create\_Sx\_database.m}, and open the routine in the editor.
+
+\begin{verbatim}
+>> cd ./multi_angle_mie_sizing/mie_m_code
+>> edit create_Sx_database.m 
+\end{verbatim}
+
+For this example we will create a small (but useless) database.  Set the database name (it will be created in the current directory), edit the maximum diameter, \texttt{max\_d}, to be 50$\mu$m, and the size increment \texttt{d\_inc} to be 5$\mu$m.  Edit $theta=(pi/180)*[0:5:180]$, and set the index of refraction to $m=1.448+0i$.  Now run:
+
+\begin{verbatim}
+>> create_Sx_database.m 
+\end{verbatim}
+
+In a few seconds, there should be a new database in your current directory.  If you were making a real database, it might take days, and you would want to run the process out-of-the-way in the background, like this:
+
+\begin{verbatim}
+>> system_string=strcat(...
+            ['nice -n 8 /opt/matlab/bin/matlab -r "cd ''',pwd,...
+            ''';create_Sx_database ;exit" &']);
+>> system(system_string)
+\end{verbatim}
+
+A status file is periodically updated while this is running - at any time just:
+
+\begin{verbatim}
+>> load status_scat_calc
+>> [jj calc_time(jj)]
+
+ans =
+
+   37.0000    4.3135
+
+\end{verbatim}
+
+The returned information is the current iteration number, \texttt{jj}, and the amount of total time taken up to this point, \texttt{calc\_time}.
+
+If the database was created correctly, you should be able to run this and see the same output:
+
+\begin{verbatim}
+>> load scattering_coeff_database.mat
+>> A
+
+A = 
+
+1x37 struct array with fields:
+    S1
+    S2
+
+>> B
+
+B = 
+
+        m: 1.4480
+        x: [1x10 double]
+    theta: [1x37 double]          
+
+\end{verbatim}
+

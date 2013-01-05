@@ -1,0 +1,46 @@
+\chapter{Example - Optical Method for Planar Measurement of Spray Characteristics}
+\label{step_by_step_example}
+
+The following sections present a step-by-step, Matlab-command-specific example of the entire multi-angle Mie scattering sizing method.  It will be assumed that Matlab is installed and working.  In addition, the example is executed using the linux version of Matlab; a few unix-specific commands are necessary within the sizing routines however it should be straightforward for a Windows user to make appropriate changes in these few cases.  Interested Windows users should contact the author; addition of a Windows-specific tree or improved coding allowing unrestricted use on both platforms would be welcomed.
+
+\section{Get the Code}
+\subsection{Downloading the Dissertation Code}
+The Matlab routines necessary to implement the ``Multi-Angle-Mie-Sizing'' method described in the original dissertation, ``Development of a Novel Planar Mie Scattering Method for Measurement of Spray Characteristics,'' by Stephen LePera are hosted at:
+
+https://github.com/leperas/Multi-Angle-Mie-Droplet-Sizing
+
+The version directly referenced within the dissertation is denoted as Version 1, or v1 and is found in the download section.
+
+Absolutely NO development has occurred on this version after the dissertation was finished.  It is highly recommended that if you wish to implement the technique, you should use the latest version from the github repository.
+
+\subsection{Downloading the GitHub repository}
+
+The actual GitHub repository is where the latest updates, capabilities, and new versions are found.  Significant additions and improvements have already been made since the release of the dissertation, so it is highly recomended to use the latest updated GitHub version found at:
+
+https://github.com/leperas/Multi-Angle-Mie-Droplet-Sizing
+
+The README within that repository should contain the most updated information about the project.
+
+\subsection{Installing the Code}
+Installation instructions are part of the code and are found in the file README.install.  The most up-to-date install and configuration information will be maintained within that file.
+
+\subsection{Contributing to the Code}
+Currently documentation consists of the original dissertation and this User Manual, and comments within the code. The goal of this User Manual is to contain the basic details of the method and up-to-date use and examples of the method as it evolves beyond the original dissertation work.
+
+Users interested in contributing new or improved code or documentation should start by installing \textbf{git} and then getting the latest software from https://github.com/leperas/Multi-Angle-Mie-Droplet-Sizing.  Although certainly not required, Users are encouraged to contact the author in order to avoid duplication, and to coordinate efforts.  
+
+\section{Creation of the Scattering Cross Section Database}
+
+\input{./example/make_database/make_database.tex}
+
+\section{Make an Image Data Set}
+
+\input{./example/make_images/make_images.tex}
+
+\section{Image Processing the Data Set}
+
+%\input{./example/do_processing/do_processing.tex}
+
+\section{Size Processing the Data Set}
+
+%\input{./example/do_sizing/do_sizing.tex}

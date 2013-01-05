@@ -1,0 +1,11 @@
+The last step is to run the size processing routine.  The sizing processing initialization file was created and stored in the same directory with the other image processing results.  Options within the sizing initialization file are covered within Section \ref{sizing_calcuations}, however the file created in this example may be used as-is.
+
+Change to the directory with the size processing function \texttt{analyze\_sizes\_f.m}, and run the \texttt{analyze\_sizes\_f.m} function.
+
+\begin{verbatim}
+ >> cd ./multi_angle_mie_sizing/sizing_functions/sub_functions
+ >> [best_mean best_std best_sigma best_dist match_fraction conf_num]=...
+                      analyze_sizes_f(0)
+\end{verbatim}
+
+Use the GUI to select the sizing initialization file created by the data processing routine, \texttt{sim\_data\_sizing\_ini.ini}.

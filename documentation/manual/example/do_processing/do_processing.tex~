@@ -1,0 +1,67 @@
+A data processing initialization file, \texttt{test-image\_processing.ini}, was created as part of the simulated data set in the previous section, and is located in the directory with those images.  The contents and use of this file is well documented in Section \ref{image_processing}.  The contents may be left alone, or edited by hand.  For the example, open the file and scroll down to the \{Output\} section.  Change the parameter \texttt{output\_eps\_figures =  'Yes'} so that some images will be generated during processing.  Save changes to the file.
+
+Change to the directory containing the function \texttt{processor2\_v82\_f.m} and run the following:
+
+\begin{verbatim}
+>> processor2_v82_f(0)
+\end{verbatim}
+
+The processor function will open a GUI; select the data processing initialization file, \texttt{test\allowbreak-image\_\allowbreak processing.ini}.  Eleven figures will open, and a prompt to process the next angle will appear; select ``No'' and the function will close, but the figures will remain.
+
+The following output is on the screen, and this same information has been saved into the log file, \texttt{./test\_images/processed\_output\_sim\_data/sim\_data\_processing\_log.txt}:
+
+\begin{verbatim}
+ Figure origin [0  y-offset  z-offset] [ 0  0.000000  0.000000 ]  
+**** Reference Image **** 
+Percentage saturated pixels: 45.137840 
+    !!! WARNING !!! Percentage saturated pixelsabove limit of 1.000000 
+Actual data block limits, Left, Right, Top, Bottom: 
+                               [-0.024747 0.024861 0.250196 -0.199869] 
+Block height: 0.450065  width: 0.049608 
+Actual super pixel square side length: 1.222222e-02 inches.
+Single pixel area: 5.168952e-07 square inches.
+Number of actual pixels averaged in a superpixel: 289
+Total super pixel area: 1.493827e-04 square inches.
+\end{verbatim}
+
+
+The processor has just worked on the reference image, and found lots of saturated pixels.  This is normal for the simulated data, because the red reference dots and the white background that frames the image are both considered ``saturated''.  If this waring happens with actual experimental images, check to be sure the saturation is not in the data part of the image.
+
+In the processing initialization file, a sub-block of data was requested.  The exact size of the block is returned; due to the discrete number of pixels in the image this is unlikely to be exactly what was requested.  The same is true for the requested super-pixel dimensions.  
+
+Eleven Figures are opened.  Figure 1 is a histogram of the reference image; the high number of ``saturation'' pixels is evident.  Again, if this were seen in a real experimental, check that the saturated pixels are outside the data region.
+
+Figure 2 illustrates the image registration information.  Check that what is shown are the dimensions of the data region.
+
+Figure 3 is original image, Figure 4 is the perspective corrected ``flat'' image, and Figure 5 is only data from the color channel containing data, in the example that is the green channel.
+
+Figure 6 shows the image area, with the image values converted to the 0-1 range as the ``brightness matrix'' and Figure 7 is the same information, but just showing the sub-block of data requested in the initialization file.
+
+Figure 8 and Figure 9 are the ``sister'' images of Figures 6 and 7, showing the application of the exposure time.  Because the exposure time of the reference image in this case was close to one (0.988), very little difference is observed.  
+
+Figure 10 shows the location of the super-pixels as a ``+'' overlaying the super-pixel contour values.  Last, Figure 11 shows the same super-pixel values, but uses the actual shape of the super-pixel.  The fill-color of the super-pixels represents the value of the averaged super-pixel.
+
+Open the data processing initialization file, \texttt{test-image\_processing.ini} again and change the \texttt{output\_eps\_figures} value back to \texttt{'No'}, then run the processor again, but with no pauses by setting the input parameter to ``2``, like this:
+
+\begin{verbatim}
+>> processor2_v82_f(2)
+\end{verbatim}
+
+The routine, now that no images are required, will very quickly re-process the reference and the other 6 data images. The on-screen output is the same in the example; in a real data set it is good to look at each image and be sure each image has processed correctly.  The intensity ratio data file has been created, \texttt{sim\_data\_ratio.mat} in the directory with all the other processing output, \texttt{./test\_images/processed\_output\_sim\_data/}.  The sizing processing initialization file is also saved there.  The data set is ready for size processing.
+
+The data processing in this example goes very fast, but large images and large data sets may take longer.  If many data sets need to be processed, the GUI interface tool \texttt{start\allowbreak\_image\allowbreak\_processing.m} is very useful.  Simply create a text file with the full path to every data image processing initialization file that needs to be processed, as many as needed, as below:
+
+\begin{verbatim}
+/full_path_to/test_images/test-image_processing.ini
+/full_path_to/other_test_images/other_test-image_processing.ini
+/full_path_to/more_test_images/more_test-image_processing.ini
+\end{verbatim}
+
+
+ 
+
+
+
+
+
+

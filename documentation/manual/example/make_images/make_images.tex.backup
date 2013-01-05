@@ -1,0 +1,111 @@
+\subsection{Test the Intensity Function}
+Before jumping in and making images, it is a good idea to test the intensity function, \texttt{Irr\_int.m}
+
+Change to the directory containing \texttt{Irr\_int.m}.  Make the scattering coefficient database variables global, and load the water database that came with the downloaded code package as shown:
+
+\begin{verbatim}
+>> cd ./multi_angle_mie_sizing/mie_m_code
+>> global A B
+>> load ./database_files/scattering_coefficients_database2.mat
+\end{verbatim}
+Define the input variables (note calculation of size factor, x):
+\begin{verbatim}
+>> diameter=25.02;
+>> sigma=10;
+>> wavelength=514.5;
+>> x=2*pi*(diameter/2)*1e3/wavelength;
+>> sigx=2*pi*(sigma)*1e3/wavelength;
+>> PDF_type='single';
+>> theta=139.03*pi()/180;
+>> phi=0*pi()/180;
+>> half_cone_ang=0.2*pi()/180;
+>> gamma_ref=pi()/2;
+>> xi=pi()/2;
+>> method='full';
+\end{verbatim}
+Run the routine:
+\begin{verbatim}
+>> [intensity I Q U V matches]=Irr_int(x,sigx,PDF_type,...
+         theta, phi, half_cone_ang, gamma_ref, xi, method)
+
+intensity =
+
+    0.3261
+
+
+I =
+
+   1.0e+03 *
+
+         0         0    9.0955         0         0
+         0    9.8185    9.8185    9.8185         0
+    9.9671    9.9672    9.9673    9.9672    9.9671
+         0    9.5866    9.5866    9.5866         0
+         0         0    8.8292         0         0
+
+
+Q =
+
+   1.0e+03 *
+
+         0         0   -9.0955         0         0
+         0   -9.8184   -9.8185   -9.8184         0
+   -9.9670   -9.9672   -9.9673   -9.9672   -9.9670
+         0   -9.5866   -9.5866   -9.5866         0
+         0         0   -8.8292         0         0
+
+
+U =
+
+         0         0    0.0000         0         0
+         0  -25.8268    0.0000   25.8268         0
+  -52.5150  -26.2580    0.0000   26.2580   52.5150
+         0  -25.2935    0.0000   25.2935         0
+         0         0    0.0000         0         0
+
+
+V =
+
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+
+
+matches =
+
+    2.4260  152.6527
+
+\end{verbatim}
+
+Your output should match the above.
+
+\subsection{Make Simulated Data Images}
+
+The function for making simulated images, \texttt{make\_data\_images.m}, is controlled by an initialization data file.  If no initialization file exists, the routine will create an example file.  The newly created file may be edited as desired.
+
+Change to the directory containing \texttt{make\_data\_images.m} and and run the routine, giving the desired name for your new initialization file as the input variable.
+
+\begin{verbatim}
+>> cd ./multi_angle_mie_sizing/image_creation/
+>> make_data_images('new_initialization_file.ini')
+\end{verbatim}
+
+The GUI asks where to save the images; for the purposes of this example create a directory called \texttt{test\_images} and let the routine create the initialization file there.  In practice this directory and filename may be at any desired location. 
+
+The function will now create the initialization file, and ask if the user would like to create images.  Select ``No'' if changes to the configuration are needed.  For this example, select ``Yes.''
+
+The GUI will ask for a filename and location to save the image files.  The filename supplied will be used as the base filename for the image set; all images will be in the directory selected from the GUI.  For the example, keep the default \texttt{save_file} name and select the directory created above, \texttt{test\_images}, and select ``Save.''
+
+The options for this routine are well documented earlier in Section \ref{mie_scattering_matlab_code} and also documented in the code.  Take a few minutes to read the configuration parameters available.  Using the configuration without any changes will make a data set based on setup Method \#2 (MTD2), that consists of one reference image at 40\textdegree and six data images between 138-150\textdegree.  Droplets will cover a range between 1-50$\mu$m with a log-normal distribution and $\sigma=10$.  The default configuration uses a linearly vertically polarized laser as the incident light source, and a linearly oriented polarizing filter at the detector camera.  When everything is configured as desired, run the routine as follows:
+
+\begin{verbatim}
+>> make_data_images
+\end{verbatim}
+
+The GUI asks where to save the images; for the purposes of this example create a directory called \texttt{test\_images} and let the routine create the images there.  In practice this directory may be at any desired location.
+
+Eight figures should open.  The first seven figures are the images described above, the eight image is a contour plot showing the simulated sizes.  The data images are saved in the chosen directory as JPEG, the contour plot is not saved.  If you want to keep it then save it manually; however all data required to recreate the contour plot is saved in the chosen directory as .mat files. For each image there is a \texttt{``dg''} file and a \texttt{``In''} file, containing respectively the diameter information and intensity information.  There is also one \texttt{``info''} file which contains all the configuration parameters used by \texttt{make\_data\_images.m} to produce the simulated data set.  In addition, a template image processing initialization file is created in that directory.  The images created should look similar to those in Figure \ref{example_sim_images}.
+
+
