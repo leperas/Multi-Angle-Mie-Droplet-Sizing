@@ -20,6 +20,7 @@ The master repository TAG "dissertation" should take you back to the original co
 
 There are no updates, bug fixes, or new features...but perhaps the simplest way to get started is to download the tar.bz2 package.  All the files referenced within the dissertation are contained within multi-angle-mie-sizing_v1.tar.bz2, including the appropriate cross section database files.  This v1 package will not change or be updated in order to maintain consistancy with the original dissertation document.  This package is available on my Google+ Drive at the following URL:
 
+https://docs.google.com/open?id=0By0Xr9D8LwH2aGZ5YVpabi1ra2M
 
 To install, put this file into it's own directory and run:
 

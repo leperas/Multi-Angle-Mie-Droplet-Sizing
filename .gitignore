@@ -3,4 +3,4 @@
 temp/
 *.dvi
 *.backup
-*.mat 
+multi_angle_mie_sizing/database_files/*.mat

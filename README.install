@@ -1,10 +1,26 @@
-Installing the GitHub repository version of the software.
+METHOD #1: (if you just want a quick look around)
+----------
+Installing the .zip archive of the GitHub repository. 
+1) Navigate to https://github.com/leperas/Multi-Angle-Mie-Droplet-Sizing and click on the ZIP button.  Download the zipped archine into the directory where you want the code stored.
+2) Extract.
+3) Look at ./multi_angle_mie_sizing/database_files/README.databases and download the databases you need into that directory.
+4) It is a good idea to copy the "helper functions" into your own toolbox, or the general toolbox, ./matlab/toolbox/matlab/general.  This way they are always available.  There are four 3rd party helper functions: inifile.m, MFquestdlg.m, plane_line_intersect.m, and git.m (allows calls to git from the Matlab command line).  There are two regular package helper functions, mfprintf.m and use_lockfile.m.  Be sure to run:
+
+  >> rehash toolbox
+
+from Matlab after you copy these files over.
+
+5) That should be it. 
+
+METHOD #2 (if you want to contribute - do it this way)
+-------------------------------------------------------
+Installing the GitHub repository version of the software using "git".
 
 1) If you are not familiar with the version control system "git", you should read the Pro Git book, written by Scott Chacon and provided online: http://git-scm.com/book
 2) Install "git."  If it's working right, you should be able to go to the directory on your machine where you'd like to keep your project and run:
 git clone https://github.com/leperas/Multi-Angle-Mie-Droplet-Sizing.git
 Refer to the above Pro Git book for details about installation and cloning the repository.
-3) Get the database files from the download area, and uncompress them into ./multi_angle_mie_sizing/database_files/
+3) Look at ./multi_angle_mie_sizing/database_files/README.databases and download the databases you need into that directory.
 4) It is a good idea to copy the "helper functions" into your own toolbox, or the general toolbox, ./matlab/toolbox/matlab/general.  This way they are always available.  There are four 3rd party helper functions: inifile.m, MFquestdlg.m, plane_line_intersect.m, and git.m (allows calls to git from the Matlab command line).  There are two regular package helper functions, mfprintf.m and use_lockfile.m.  Be sure to run:
 
   >> rehash toolbox
@@ -22,7 +38,5 @@ If you would like to contribute to the project and/or modify things, feel free t
 
 Stephen LePera
 Virginia Tech, 2012
-
-
 
 
