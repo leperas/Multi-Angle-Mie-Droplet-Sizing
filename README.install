@@ -1,24 +1,22 @@
-Installing the Repo version of the software.
+Installing the GitHub repository version of the software.
 
-From the compressed download:
-1) Put the compressed Repo in it's own directory and extract everything.  There should be two directories:
-     ./multi_angle_mie_sizing  
-     ./multi_angle_mie_sizing_3rd_party 
-
-2) Get the database files from the download area, and uncompress them into ./multi_angle_mie_sizing/database_files/
-
-3) It is a good idea to copy the "helper functions" into your own toolbox, or the general toolbox, ./matlab/toolbox/matlab/general.  This way they are always available.  There are three 3rd party functions, inifile.m, MFquestdlg.m, and git.m (allows calls to git from the Matlab command line).  There are two regular package functions, mfprintf.m and use_lockfile.m.  Be sure to run:
+1) If you are not familiar with the version control system "git", you should read the Pro Git book, written by Scott Chacon and provided online: http://git-scm.com/book
+2) Install "git."  If it's working right, you should be able to go to the directory on your machine where you'd like to keep your project and run:
+git clone https://github.com/leperas/Multi-Angle-Mie-Droplet-Sizing.git
+Refer to the above Pro Git book for details about installation and cloning the repository.
+3) Get the database files from the download area, and uncompress them into ./multi_angle_mie_sizing/database_files/
+4) It is a good idea to copy the "helper functions" into your own toolbox, or the general toolbox, ./matlab/toolbox/matlab/general.  This way they are always available.  There are four 3rd party helper functions: inifile.m, MFquestdlg.m, plane_line_intersect.m, and git.m (allows calls to git from the Matlab command line).  There are two regular package helper functions, mfprintf.m and use_lockfile.m.  Be sure to run:
 
   >> rehash toolbox
 
-from Matlab after you copy the files over.
+from Matlab after you copy these files over.
 
-4) That should be it. 
+5) That should be it. 
 
 USAGE NOTES:
 The "3rd Party" software is all available publically; it is included here for convenience and to ensure compatability with the other functions.  All Matlab routines written for the multi-angle Mie sizing project are in the separate directory.
 
-Documentation is my dissertation.  Every routine is "walked through" and there is a complete end-to-end example of how everything is supposed to work in the appendix.  Although some minor details have changed, the example should still work with these routines.
+Documentation is still mostly my dissertation.  However, there is now also limited documentation in the form of a User Manual PDF in the documentation directory.  Currently this consists only of a complete HOWTO step-by-step example in the Appendix.  There is no in-depth explanation of options or use, but the example will work with the most recent repository and most options are documented in the code itself, so all is not lost.  This documentation will gradually improve and eventually replace the disertation, but that point is still in the distant future.
 
 If you would like to contribute to the project and/or modify things, feel free to contact me so I can explain what is going on currently, and we can work together constructively.
 
