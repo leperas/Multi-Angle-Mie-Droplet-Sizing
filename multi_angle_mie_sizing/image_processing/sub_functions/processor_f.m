@@ -216,7 +216,8 @@ ref_img_trans_orig(ref_img_trans_orig<output_threshold)=0;
 
 %% Set data to a matrix of brightness fractional values between 0 and 1
 pixel_max=(2^(ref_dat_img_info.BitDepth/size(ref_img_trans_orig,3))-1);
-ref_img_trans_orig_frac=double(ref_img_trans_orig(:,:,output_color_channel))/pixel_max;
+ref_img_trans_orig_frac=...
+    double(ref_img_trans_orig(:,:,output_color_channel))/pixel_max;
 
 %% apply camera correction
 ref_img_trans=make_image_correction(...
@@ -503,8 +504,10 @@ for kk=1:num_angles
     angle_img_trans_orig(angle_img_trans_orig<output_threshold)=0;
     
     %% Set data to a matrix of brightness fractional values between 0 and 1
-    pixel_max=(2^(angle_dat_img_inf.BitDepth/size(angle_img_trans_orig,3))-1);
-    angle_img_trans_orig_frac=double(angle_img_trans_orig(:,:,output_color_channel))/pixel_max;
+    pixel_max=...
+        (2^(angle_dat_img_inf.BitDepth/size(angle_img_trans_orig,3))-1);
+    angle_img_trans_orig_frac=...
+        double(angle_img_trans_orig(:,:,output_color_channel))/pixel_max;
     
     %% Apply camera correction
     angle_img_trans=make_image_correction(...

@@ -1,3 +1,25 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{Bohren_Huffman}
+C.~F. Bohren and D.~Huffman.
+\newblock {\em Light Scattering and Absorption by Small Particles}.
+\newblock Wiley, New York, 1983.
+
+\bibitem{LePera_dissertation}
+Stephen~D LePera.
+\newblock {\em Development of a Novel Planar Mie Scattering Method for
+  Measurement of Spray Characteristics}.
+\newblock PhD thesis, Virginia Polytechnic Institute and State University,
+  Blacksburg, VA, February 2012.
+
+\bibitem{Matzler_matlab_mie}
+Christian M{\"a}tzler.
+\newblock Matlab functions for mie scattering and absorption, version 2.
+\newblock Technical report, Institut f{\"u}r Angewandte Physik, Sidlerstrasse 5
+  CH-3012 Bern Schweiz, August 2002.
+
+\bibitem{MATLAB}
+Inc. {The MathWorks}.
+\newblock {\em www.mathworks.com}, r2008b edition, 2008.
 
 \end{thebibliography}

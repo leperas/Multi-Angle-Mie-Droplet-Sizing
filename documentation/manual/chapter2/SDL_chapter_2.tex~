@@ -1,0 +1,51 @@
+\chapter{Experimental}
+\label{chapter_exp}
+\section{Optical Method for Planar Measurement of Spray Characteristics using Mie Scattering Theory}
+
+The theory and background required to build the foundation of a planar (2D) optical spray characterization method was presented in Section \ref{background}.  From that discussion it is clear that information about the mean droplet size,  and the width and shape of of a spray size distribution is encoded within the distribution of intensities scattered from droplets within a particular plane of interest.  With the Mie theory in hand, if the characteristics of a spray are known then this distribution of scattered intensities may be calculated.  
+
+The current work addresses the ``reverse problem'' where scattered intensities at a discrete number of locations are measured, and then this information is used to deduce the size and size distribution of unknown droplets within the planar interrogation region.
+
+The procedure used here is as follows:
+\begin{enumerate}
+\item The spray of droplets must be located within a specific optical setup and the geometry of all optical and experimental components must be well known, controlled, and placed in a specifically designed layout conducive to collection of the most information from the least number of discrete measurements.  The region of interest is illuminated by a collimated, planar laser sheet.
+\item Images from multiple angular locations are taken of the region of interest, either simultaneously or by moving a single detector during a continuous (stationary) experiment.  A minimum of two measurements are required - one reference angle and one data angle.  Additional data angles provide improvements in mean droplet diameter determination and add information about the droplet size distribution.
+\item After the experiment is complete, the images are ``registered'' spatially into a common coordinate system, corrected for perspective and detector non-linearity, and processed to produce ``intensity ratios'' between data angles and a reference angle.  This ratio is therefore available at every point/area within the planar region of interest.
+\item The measured intensity ratios are compared against known Mie theory scattering intensity ratios to deduce the size and size distribution of the droplets at all points/areas within the planar region of interest.
+\end{enumerate}
+
+The following sections detail the ``nuts and bolts'' of the current technique.  A complete step-by-step example of the above procedure is presented in Appendix \ref{step_by_step_example}.
+
+\section{Experimental Methodology}
+Experiments are divided into three categories: experiments conducted to validate optical diagnostics, experiments conducted to validate the software data processing, and finally droplet measurement experiments with a well-known simplex spray nozzle.
+
+\section{Optical Diagnostics}
+
+\input{./chapter2/optical_diagnostics/optical_diagnostics.tex}
+
+\section{Data Processing}
+\label{data_processing}
+
+  \subsection{Computation of Mie Theory Scattering Functions}
+  \label{mie_scattering_matlab_code}
+
+  \input{./chapter2/data_processing/data_image_creation/computation_mie_scatter_funcs.tex}
+  \input{./chapter2/data_processing/data_image_creation/simulated_scattering_image_generation.tex}
+
+  \subsection{Image Processing}
+  \label{image_processing}
+
+  \input{./chapter2/data_processing/image_processing/initialization_file/initialization_file.tex}
+  \input{./chapter2/data_processing/image_processing/processor_function/processor_function.tex}
+
+  \subsection{Sizing Calculations}
+  \label{sizing_calcuations}
+
+  \input{./chapter2/data_processing/sizing/sizing_ini_file.tex}
+  \input{./chapter2/data_processing/sizing/sizing_function.tex} 
+
+\section{Simplex Spray Nozzle}
+\label{simplex_spray_nozzle}
+
+  \subsection{Spray Nozzle Configuration}
+  \input{./chapter2/spray_nozzle/nozzle_config.tex}

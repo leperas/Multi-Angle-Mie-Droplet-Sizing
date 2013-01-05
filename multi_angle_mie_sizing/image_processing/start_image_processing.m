@@ -36,7 +36,7 @@ for ii=1:size(A,1)
         
         system_string=strcat(...
             'nice -n 5 /opt/matlab/bin/matlab -r "cd ''',dir_str,...
-            ''';processor2_v82_f(''',cell2mat(A(ii)),''');exit" &');
+            ''';processor_f(''',cell2mat(A(ii)),''');exit" &');
         
         [status0, result0]=system(system_string);
        

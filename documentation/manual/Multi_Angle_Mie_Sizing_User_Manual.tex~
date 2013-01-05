@@ -36,13 +36,13 @@
 \includeonly{
 %Draft_Cover,
 title_page,
-%acknowledgements,
+acknowledgements,
 table_of_contents,
 list_of_figures,
 list_of_tables,
 ./chapter1/chapter_1,
-%./chapter2/chapter_2,
-%./chapter3/chapter_3,
+./chapter2/chapter_2,
+./chapter3/chapter_3,
 %./appendix_code/appendix_code,
 ./example/example
 }
@@ -84,27 +84,27 @@ list_of_tables,
 \include{acknowledgements}
 \pagebreak
 
-\include{SDL_table_of_contents}
+\include{table_of_contents}
 \pagebreak
 
-\include{SDL_list_of_figures}
+\include{list_of_figures}
 \pagebreak
 
-\include{SDL_list_of_tables}
+\include{list_of_tables}
 \pagebreak
 
 % Start of chapters, begin numbering with arabic numerals, starts w/ 1
 % Use \setcounter if you want something else.
 \pagenumbering{arabic}
-\include{./chapter1/SDL_chapter_1}
+\include{./chapter1/chapter_1}
 \pagebreak
 
 % Any following chapters are added as below:
 
-\include{./chapter2/SDL_chapter_2}
+\include{./chapter2/chapter_2}
 \pagebreak
 
-\include{./chapter3/SDL_chapter_3}
+\include{./chapter3/chapter_3}
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -121,11 +121,7 @@ list_of_tables,
 \include{./appendix_code/appendix_code}
 \pagebreak
 
-\include{./appendix_example/appendix_example}
-\pagebreak
-
-% The VITA, otherwise known as seeya later suckers, I am outa here.
-\include{SDL_vita}
+\include{./example/example}
 \pagebreak
 
 \end{document}

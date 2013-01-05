@@ -1,0 +1,83 @@
+\chapter{Results and Discussion}
+\label{Results_and_Discussion}
+\section{Introduction}
+
+The previous chapters presented the theory and practice of an optical method for planar measurement of spray characteristics using Mie scattering.  Light scattering from an entire 2D plane was collected in a series of images to obtain information about the size and size distribution of particles within that slice of a typical spray.  Custom built Matlab image processing and droplet sizing routines were presented and shown to produce spatially accurate information about the spray's size and distribution characteristics.  The planar method enabled determination of sizing data within a large field of interest in a fast and inexpensive manner.
+
+The questions that remain to be discussed are:
+\begin{compactitem}
+\item What are the limitations of the method?
+\item How sensitive are the sizing results to the experimental parameters?
+\item Given the above two items, is the method applicable in a real-world experimental environment? 
+\end{compactitem}
+\vspace*{0.15in}
+
+The following sections address each of these respective topics.
+
+\section{Limitations of Theory}
+\label{theory_limitations}
+    
+%  \input{./chapter3/limitations.tex}
+
+
+\section{Sensitivity and Limitations of the Method}
+\label{sensitivity_analysis}
+
+% \input{./chapter3/sensitivity/sense_introduction.tex}
+
+ 
+   \subsection{Droplet Size Range}
+   \label{drop_size_range}
+   
+ %     \input{./chapter3/sensitivity/drop_size_range/drop_range.tex}
+
+ 
+    \subsection{Quantity and Location of Angular Images}
+    \label{five_methods}
+
+  %    \input{./chapter3/sensitivity/quant_loc/quant_loc.tex}
+
+    \subsection{Signal Dynamic Range}
+     \label{dyn_range}
+
+   %   \input{./chapter3/sensitivity/dyn_range/dyn_range.tex}
+
+    \subsection{Identification of Distributions}
+     \label{dist_id}
+
+    %  \input{./chapter3/sensitivity/dist_id/dist_id.tex}
+
+    \subsection{Angular Location of Detector}
+      \label{ang_loc}
+
+     % \input{./chapter3/sensitivity/angle_loc/angle_loc.tex}
+
+    \subsection{Setup Method Comparison}
+     \label{method_comparisons}
+
+     % \input{./chapter3/sensitivity/comparisons.tex}
+
+
+\section{Conclusions and Recommendations}
+
+Sizing information gained from the optical technique herein consists of a mean droplet diameter and droplet distribution estimates for every individual point within a planar area of interest.  The planar method makes possible the fast acquisition of data within a large field of interest, and uses relatively inexpensive instrumentation.  This technique  is a significant \textit{advance in accessibility} to quantitative sizing information - droplet size information previously reserved only for researchers in possession of much more expensive diagnostic systems is available to ``everyone.''
+
+The performance of the current planar optical method has been demonstrated in a real application, presented in the original dissertation \cite{LePera_dissertation} using experiments with three laboratory scale simplex atomizers.  As presented therein, the method demonstrated the ability to measure droplets across the range of 5-50$\mu$m within +/-10\% of known values, and in addition return an estimate of the shape and width of the correct size distribution at each location within the planar region of interest.  
+
+The necessary assumptions currently required to use this method, as presented within the current work, are summarized below:
+\begin{compactitem}
+\item spherical, homogeneous, isotropic non-reflective droplets,
+\item normal or log-normal distributions, 
+\item insignificant multiple scattering, 
+\item monochromatic incident light (either un-polarized or linearly polarized), 
+\item no active optical components between the incident light and the detector other than, if desired, a linear polarized filter.
+\end{compactitem}
+\vspace*{0.15in}
+
+This method is believed capable of measuring droplet distribution characteristics and means within a nominal range of 0.3$\mu$m up to 150$\mu$m and higher.  The cost to build a system with this capability, a 75mW diode laser (\$100), a RAW image format digital camera (\$300), and assorted lenses and optical components (\$500), are all estimated to be available for a total less than \$1000.
+
+Future advancements in the technique are already in progress, most importantly including an advanced pattern recognition sizing algorithm capable of quantitatively learning the droplet size and distribution information within a spray ``at a glance,'' with no separate reference image required and significantly less sensitivity to the exact location of angular data images.  Incorporation of an improved image-by-image, planar-location-specific signal strength weighting factor promises to reduce errors in poor dynamic signal ratio areas.
+
+Additionally, publicly available machine vision algorithms are already capable of locating the position and orientation of a camera detector based on information within the camera detector's field of view.  Combined with the pattern recognition algorithm, meticulous knowledge of the optical geometry might be eliminated. 
+
+In conclusion, while work up to this point has demonstrated that this basic method can be a successful addition to the list of many optical diagnostic sizing techniques, the results presented are potentially only the beginning.  As with many things, there is always more to be done.  Anyone wishing to contribute will be welcomed and should consult the first few sections of the example in Appendix \ref{step_by_step_example}, where specific instructions about getting started have been included.
