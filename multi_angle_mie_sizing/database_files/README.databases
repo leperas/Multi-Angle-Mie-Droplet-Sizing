@@ -10,12 +10,12 @@ The scattering coeffcient databases, both for water.  Note that theta data withi
 scattering_coefficients_water_sub_angs.mat - 
      LINK: https://docs.google.com/open?id=0By0Xr9D8LwH2TGZMb1Q0R0EyaU0
      range and resolution, theta: [38:0.1:42  130:0.1:160], 
-                           x: [3.0531:3.0531:1221.2], 
+                           x: [0.3053:0.3053:1221.2], 
                            n = 1.3330 + 0i
 scattering_coefficients_water_all_angs.mat - 
      LINK: https://docs.google.com/open?id=0By0Xr9D8LwH2cFJycnJSN29sRzg
      range and resolution, theta: [0:0.1:180], 
-                           x: [0.3053:0.3053:1221.2],
+                           x: [3.0531:3.0531:1221.2],
                            n = 1.3330 + 0i
 SIZING LOOK-UP DATABASES
 The sizing database, for water.
